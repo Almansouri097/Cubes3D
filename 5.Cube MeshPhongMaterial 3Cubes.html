@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>Three.js welcome!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <h1 align="center">CUBE</h1>
+    <script src="js/three.min.js"></script>
+    <script>
+        var renderer, scene, camera, cubes;
+
+        function init() {
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(this.renderer.domElement);
+
+
+            const light = new THREE.DirectionalLight(0xffffff);
+            light.position.set(0, 20, 10);
+            const ambient = new THREE.AmbientLight(0x707070); // soft white light
+
+            cubes = new THREE.Object3D();
+            createCube();
+
+            scene.add(cubes);
+            scene.add(light);
+            scene.add(ambient);
+
+            camera.position.z = 5;
+
+        }
+
+        function createCube(cube, c, x, y, z) {
+
+            for (var i = 0; i < 100; i++) {
+
+                var a = 0xff0001;
+                c = a * Math.random();
+                x = Math.random() * 2;
+                y = Math.random() * 2.3;
+                z = Math.random() * 2;
+
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshPhongMaterial({
+                    color: c
+                });
+                cube = new THREE.Mesh(geometry, material);
+                cube.position.set(x, y, z);
+                cubes.add(cube);
+                
+            }
+        }
+
+        var update = function() {
+            cubes.rotation.x += 0.01;
+            cubes.rotation.y += 0.005;
+
+        };
+
+        function render() {
+            requestAnimationFrame(render);
+            //draw Scene
+            renderer.render(scene, camera);
+            update();
+        }
+
+        init();
+        render();
+
+    </script>
+
+</body>
+
+</html>
